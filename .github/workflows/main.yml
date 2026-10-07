@@ -93,11 +93,8 @@ jobs:
           --source-dir $PWD/src \
           --output-types lcov \
           --output-path coverage.info
-    - uses: codecov/codecov-action@v5
+    - uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5  # v7.1.1
       with:
-        files: coverage.info
-        disable_search: true
-        token: ${{ secrets.CODECOV_TOKEN }}
         fail_ci_if_error: true
 
   release:
