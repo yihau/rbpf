@@ -12,7 +12,7 @@ use solana_sbpf::{
 };
 use std::{fs::File, io::Read, path::Path, sync::Arc};
 use test_utils::TestContextObject;
-
+// test
 fn main() {
     let matches = App::new("Solana BPF CLI")
         .version(crate_version!())
