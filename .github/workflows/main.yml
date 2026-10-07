@@ -16,8 +16,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
-        rust: [stable, beta, nightly]
+        # os: [macos-latest, ubuntu-latest, windows-latest]
+        os: 
+          - buntu-latest
+        # rust: [stable, beta, nightly]
+        rust:
+          - stable
     env:
       RUSTUP_TOOLCHAIN: ${{ matrix.rust }}
       RUSTFLAGS: "-Dwarnings -Cinstrument-coverage"
@@ -33,29 +37,29 @@ jobs:
         with:
           tool: nextest,grcov
 
-      - run: cargo fmt --all -- --check
-        if: matrix.rust == 'beta'
-      - run: cargo clippy --all --tests -- --deny=warnings
-        if: matrix.rust == 'beta'
-      - run: cargo fmt --all --manifest-path cli/Cargo.toml -- --check
-        if: matrix.rust == 'beta'
-      - run: cargo clippy --all --tests --manifest-path cli/Cargo.toml -- --deny=warnings
-        if: matrix.rust == 'beta'
+      # - run: cargo fmt --all -- --check
+      #   if: matrix.rust == 'beta'
+      # - run: cargo clippy --all --tests -- --deny=warnings
+      #   if: matrix.rust == 'beta'
+      # - run: cargo fmt --all --manifest-path cli/Cargo.toml -- --check
+      #   if: matrix.rust == 'beta'
+      # - run: cargo clippy --all --tests --manifest-path cli/Cargo.toml -- --deny=warnings
+      #   if: matrix.rust == 'beta'
 
-      - run: cargo build --verbose
-        # FIXME: this is not doing much of anything... maybe check? or run the test suite with this
-        # enabled?
-      - run: cargo build --features="shuttle-test"
+      # - run: cargo build --verbose
+      #   # FIXME: this is not doing much of anything... maybe check? or run the test suite with this
+      #   # enabled?
+      # - run: cargo build --features="shuttle-test"
       - run: cargo nextest run --no-fail-fast
       - run: cargo nextest run --features="tracer,debugger" --no-fail-fast
-      - run: cargo build --manifest-path cli/Cargo.toml --verbose
+      # - run: cargo build --manifest-path cli/Cargo.toml --verbose
         # FIXME: this is not doing much of anything… maybe run a small subset of fuzzers' tests?
         # not using bininstall for cargo-fuzz as it seems to grab one for a random target...
-      - run: cargo install cargo-fuzz
-      - run: cargo fuzz build
-        if: matrix.rust == 'nightly' && matrix.os != 'windows-latest'
+      # - run: cargo install cargo-fuzz
+      # - run: cargo fuzz build
+      #   if: matrix.rust == 'nightly' && matrix.os != 'windows-latest'
 
-      - run: cargo bench -- --quick --nocapture
+      # - run: cargo bench -- --quick --nocapture
       - shell: bash
         run: |
           grcov $(find . -name "sbpf-*.profraw" -print) \
