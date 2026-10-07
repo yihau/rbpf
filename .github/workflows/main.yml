@@ -18,7 +18,7 @@ jobs:
       matrix:
         # os: [macos-latest, ubuntu-latest, windows-latest]
         os: 
-          - buntu-latest
+          - ubuntu-latest
         # rust: [stable, beta, nightly]
         rust:
           - stable
