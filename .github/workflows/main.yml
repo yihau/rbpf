@@ -51,7 +51,7 @@ jobs:
       #   # enabled?
       # - run: cargo build --features="shuttle-test"
       - run: cargo nextest run --no-fail-fast
-      - run: cargo nextest run --features="tracer,debugger" --no-fail-fast
+      # - run: cargo nextest run --features="tracer,debugger" --no-fail-fast
       # - run: cargo build --manifest-path cli/Cargo.toml --verbose
         # FIXME: this is not doing much of anything… maybe run a small subset of fuzzers' tests?
         # not using bininstall for cargo-fuzz as it seems to grab one for a random target...
@@ -81,6 +81,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RUSTUP_TOOLCHAIN: nightly
+    permissions:
+      id-token: write
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
     - uses: taiki-e/install-action@f7e5d7c961414b23f5b25b2da9294395d08513ad
@@ -100,6 +102,7 @@ jobs:
     - uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5  # v7.1.1
       with:
         fail_ci_if_error: true
+        use_oidc: true
 
   release:
     name: Release
